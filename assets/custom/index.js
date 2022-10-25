@@ -5,13 +5,29 @@ var map = L.map('map').setView([51.1657, 10.4515], 9);
 const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
 }).addTo(map);
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 17,
+    attribution: 'Esri Base Map'
+});
+
+var basemapCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    attribution: '',
+    maxZoom: 20,
+    noWrap: true
+});
+
+var baseLayers = {
+    'OSM': osm,
+    'Satellite': Esri_WorldImagery,
+    'Carto': basemapCarto,
+};
+var layerControl = L.control.layers(baseLayers).addTo(map);
 
 let zip = L.geoJSON(zips, {
     // style: styleAoi,
     onEachFeature: onEachZip,
 }).addTo(map);
 
-let colors = ["#8fce00", "#69d9f0", "#a64d79", "#ffa300", "#06a198", "#09e7da", "#746cc0", "#a7bd23", "#535e11", "#b919a8", "#419527", "#aa73fa", "#22027b", "#c03e41", "#cbe8ce"];
 
 let params = (new URL(document.location)).searchParams;
 let entries = params.entries();
@@ -63,7 +79,7 @@ for (i = 0; i < keys.length; i++) {
         style: {
             opacity: 0,
             fillColor: colors[i],
-            fillOpacity: .9,
+            fillOpacity: .6,
         },
         interactive: false,
     }).addTo(group_lg);
@@ -114,7 +130,7 @@ let nameLayer = L.geoJSON(groupCenterLyr, {
 // L.FeatureGroup.getBounds();
 map.fitBounds(group_lg.getBounds());
 map.options.minZoom = 6;
-map.options.maxZoom = 11;
+// map.options.maxZoom = 11;
 
 
 // polygon.getBounds().getCenter();
