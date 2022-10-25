@@ -25,6 +25,26 @@ body {
     color: black;
     padding: 2px 4px;
 }
+.label-tooltip-code {
+    background-color: rgba(255, 255, 255,0);
+    border: none;
+    box-shadow: none;
+    color: black;
+    padding: 2px 4px;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+.label-tooltip-group {
+    background-color: rgba(255, 255, 255,0);
+    border: none;
+    box-shadow: none;
+    color: black;
+    padding: 2px 4px;
+    font-size: 20px;
+    font-weight: bold;
+
+}
 #info {
     position: absolute;
     right: 0;
