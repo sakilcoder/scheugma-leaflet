@@ -27,6 +27,22 @@ function onEachZip(feature, layer) {
         fillOpacity: .5,
     });
 
+    var popup = L.popup();
+    let str_popup = '';
+    str_popup += feature.properties.code;
+
+    popup.setContent(str_popup);
+    layer.bindPopup(popup, popupOptions);
+
+    layer.on('mouseover', function (e) {
+        var popup = e.target.getPopup();
+        popup.setLatLng(e.latlng).openOn(map);
+    });
+
+    layer.on('mouseout', function (e) {
+        e.target.closePopup();
+    });
+
     // layer.bindTooltip(layer.feature.properties.code, {
     //     permanent: true,
     //     direction: "center",

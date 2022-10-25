@@ -21,6 +21,8 @@ var keys = Object.keys(obj);
 var groupCenterLyr = { "type": "FeatureCollection" }
 let groupCenters = [];
 
+let group_lg = L.featureGroup();
+
 for (i = 0; i < keys.length; i++) {
 
     let fc = { "type": "FeatureCollection" }
@@ -64,7 +66,7 @@ for (i = 0; i < keys.length; i++) {
             fillOpacity: .9,
         },
         interactive: false,
-    }).addTo(map);
+    }).addTo(group_lg);
 
     let latlng = group.getBounds().getCenter();
     // console.log(latlng.lng);
@@ -79,6 +81,8 @@ for (i = 0; i < keys.length; i++) {
     groupCenters.push(g_feature);
 
 }
+
+group_lg.addTo(map)
 
 groupCenterLyr.features = groupCenters;
 
@@ -104,10 +108,13 @@ let nameLayer = L.geoJSON(groupCenterLyr, {
         });
         layer.setIcon(icon)
 
-    }
+    }, interactive: false,
 }).addTo(map);
 
-map.fitBounds(nameLayer.getBounds());
+// L.FeatureGroup.getBounds();
+map.fitBounds(group_lg.getBounds());
+map.options.minZoom = 6;
+map.options.maxZoom = 11;
 
 
 // polygon.getBounds().getCenter();
