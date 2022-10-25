@@ -19,7 +19,7 @@ let obj = Object.fromEntries(entries);
 var keys = Object.keys(obj);
 
 var groupCenterLyr = { "type": "FeatureCollection" }
-let groupCenters= [];
+let groupCenters = [];
 
 for (i = 0; i < keys.length; i++) {
 
@@ -63,7 +63,7 @@ for (i = 0; i < keys.length; i++) {
             fillColor: colors[i],
             fillOpacity: .9,
         },
-        interactive:false,
+        interactive: false,
     }).addTo(map);
 
     let latlng = group.getBounds().getCenter();
@@ -82,24 +82,32 @@ for (i = 0; i < keys.length; i++) {
 
 groupCenterLyr.features = groupCenters;
 
-console.log(groupCenterLyr);
+let GoogleIcon = function (html) {
+    return L.divIcon({
+        html: html,
+        iconSize: [16, 16],
+        className: 'my-google-icon'
+    });
+}
+
+var icon = GoogleIcon('<span class="g-icon"><i class="material-icons g-icon-i" style="font-size:2px; color: #4CACBC">place</i></span>');
 
 let nameLayer = L.geoJSON(groupCenterLyr, {
-    
-        onEachFeature: function onEachZip(feature, layer) {
 
-            layer.bindTooltip(layer.feature.properties.name, {
-                permanent: true,
-                direction: "center",
-                opacity: 1,
-                className: 'label-tooltip-group'
-            });
+    onEachFeature: function onEachZip(feature, layer) {
 
-        },
-        // interactive:false,
+        layer.bindTooltip(layer.feature.properties.name, {
+            permanent: true,
+            direction: "center",
+            opacity: 1,
+            className: 'label-tooltip-group'
+        });
+        layer.setIcon(icon)
+
+    }
 }).addTo(map);
 
-    map.fitBounds(nameLayer.getBounds());
+map.fitBounds(nameLayer.getBounds());
 
 
 // polygon.getBounds().getCenter();
